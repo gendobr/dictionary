@@ -30,16 +30,20 @@ if (!$link) {
 }
 mysqli_query($link, "set names utf8");
 
-if(mb_strlen($_REQUEST['word'])<3){
+
+
+$word=preg_split("/\\W+/",$_REQUEST['word']);
+$word=$word[0];
+if(mb_strlen($word)<3){
     $sql="SELECT dict_word.ind AS word_id, dict_word.number AS disct_id,
                     dict_word.word ,dict_word.tranc, dict.`name` AS dist_name
-             FROM dict INNER JOIN dict_word ON `dict_word`.number=`dict`.dict_id
-             WHERE dict_word.word = '".  mysqli_real_escape_string($link,$_REQUEST['word'])."' LIMIT 5";
+          FROM dict INNER JOIN dict_word ON `dict_word`.number=`dict`.dict_id
+          WHERE dict_word.word = '".  mysqli_real_escape_string($link,$word)."' LIMIT 5";
 }else{
     $sql="SELECT dict_word.ind AS word_id, dict_word.number AS disct_id,
                     dict_word.word ,dict_word.tranc, dict.`name` AS dist_name
-             FROM dict INNER JOIN dict_word ON `dict_word`.number=`dict`.dict_id
-             WHERE dict_word.word LIKE '".  mysqli_real_escape_string($link,$_REQUEST['word'])."%' LIMIT 5";
+          FROM dict INNER JOIN dict_word ON `dict_word`.number=`dict`.dict_id
+          WHERE dict_word.word LIKE '".  mysqli_real_escape_string($link,$word)."%' LIMIT 5";
 }
 
 

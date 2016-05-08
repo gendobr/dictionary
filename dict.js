@@ -1,4 +1,6 @@
-
+/**
+ * Source code is located at https://github.com/gendobr/dictionary
+ */
 
 window.dict = {};
 dict.getSelectionText = function () {
@@ -41,6 +43,7 @@ $(document).ready(function () {
     };
 
     var dictQuery = function () {
+        window.dict.firstView=true;
         $.ajax({
             url: window.dict.url,
             method: "GET",
@@ -88,7 +91,7 @@ $(document).ready(function () {
 
             window.dict.dictPopupBlock.css({left: e.pageX + 'px', top: (e.pageY + 20) + 'px'}).show();
 
-            dictStartSearch();
+            dictQuery();
 
         } catch (err) {
 
@@ -99,6 +102,10 @@ $(document).ready(function () {
 
 
     $(window).click(function(ev){
+        if(window.dict.firstView){
+            window.dict.firstView=false;
+            return;
+        }
         var tgr=$(ev.target);
         // console.log(ev);
         if(tgr.attr('id')=='dictPopupBlock'){
